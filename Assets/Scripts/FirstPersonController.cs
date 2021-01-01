@@ -13,6 +13,10 @@ public class FirstPersonController : MonoBehaviour
     public Camera playerCamera;
     public float lookSpeed = 2.0f;
     public float lookXLimit = 45.0f;
+    public float slideFriction = 0.3f;
+    private float hitAngle;
+    private Vector3 hitNormal;
+    private bool isGroundedNew;
 
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
@@ -42,7 +46,7 @@ public class FirstPersonController : MonoBehaviour
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
-        if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
+        if (Input.GetButton("Jump") && canMove && isGroundedNew && characterController.isGrounded)
         {
             moveDirection.y = jumpSpeed;
         }
@@ -54,13 +58,17 @@ public class FirstPersonController : MonoBehaviour
         // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
         // when the moveDirection is multiplied by deltaTime). This is because gravity should be applied
         // as an acceleration (ms^-2)
-        if (!characterController.isGrounded)
+        if (!isGroundedNew || !characterController.isGrounded)
         {
             moveDirection.y -= gravity * Time.deltaTime;
+            moveDirection.x += (1f - hitNormal.y) * hitNormal.x * (1f - slideFriction);
+            moveDirection.z += (1f - hitNormal.y) * hitNormal.z * (1f - slideFriction);
         }
 
         // Move the controller
         characterController.Move(moveDirection * Time.deltaTime);
+        hitAngle = Vector3.Angle(Vector3.up, hitNormal);
+        isGroundedNew = hitAngle <= characterController.slopeLimit;
 
         // Player and Camera rotation
         if (canMove)
@@ -70,5 +78,10 @@ public class FirstPersonController : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        hitNormal = hit.normal;
     }
 }
