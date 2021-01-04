@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 61886039}
   m_Layer: 0
   m_Name: Part
-  m_TagString: Part1
+  m_TagString: Part2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -880,6 +880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distance: 7
+  cursor: {fileID: 388624309}
 --- !u!1 &852036512
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,7 +1001,7 @@ GameObject:
   - component: {fileID: 931202635}
   m_Layer: 0
   m_Name: Part
-  m_TagString: Part1
+  m_TagString: Part4
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1176,7 +1177,7 @@ GameObject:
   - component: {fileID: 1356213214}
   m_Layer: 0
   m_Name: Part
-  m_TagString: Part1
+  m_TagString: Part3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

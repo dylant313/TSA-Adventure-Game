@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Part1
+  - Part2
+  - Part3
+  - Part4
   layers:
   - Default
   - TransparentFX

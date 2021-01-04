@@ -1,41 +1,63 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerRaycast : MonoBehaviour
 {
     private Camera cam;
     public float distance;
+    public Image cursor;
 
     void Start()
     {
         cam = Camera.main;
     }
 
-    void CheckInteraction()
+    void ColorChange(float color)
     {
-        Vector3 origin = cam.transform.position;
-        Vector3 direction = cam.transform.forward;
-        RaycastHit hit;
-
-        if(Physics.Raycast(origin, direction, out hit, distance))
-        {
-            if(hit.transform.tag == "Part1")
-            {
-                Debug.Log("Part1 found.");
-            }
-            else
-            {
-                Debug.Log("Not a part.");
-            }
-        }
+        var tempColor = cursor.color;
+        tempColor.a = color;
+        cursor.color = tempColor;
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        RaycastHit hit;
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distance))
         {
-            CheckInteraction();
+            if (hit.transform.tag != "Untagged")
+            {
+                ColorChange(1f);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if(hit.transform.tag == "Part1")
+                    {
+                        Debug.Log("Part1 found.");
+                    }
+                    if (hit.transform.tag == "Part2")
+                    {
+                        Debug.Log("Part2 found.");
+                    }
+                    if (hit.transform.tag == "Part3")
+                    {
+                        Debug.Log("Part3 found.");
+                    }
+                    if (hit.transform.tag == "Part4")
+                    {
+                        Debug.Log("Part4 found.");
+                    }
+                }
+            }
+            else
+            {
+                ColorChange(0.5f);
+            }
         }
+        else
+        {
+            ColorChange(0.5f);
+        }
+        
     }
 }
