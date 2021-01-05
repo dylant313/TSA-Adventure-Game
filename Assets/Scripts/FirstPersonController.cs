@@ -22,8 +22,7 @@ public class FirstPersonController : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
 
-    [HideInInspector]
-    public bool canMove = true;
+    public static bool canMove = true;
 
     void Start()
     {
