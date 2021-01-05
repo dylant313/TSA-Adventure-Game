@@ -8,10 +8,13 @@ public class PlayerRaycast : MonoBehaviour
     private Camera cam;
     public float distance;
     public Image cursor;
+    public CanvasGroup mathUI;
+    public static bool mathGameOn = false;
 
     void Start()
     {
         cam = Camera.main;
+        mathUI.alpha = 0f;
     }
 
     void ColorChange(float color)
@@ -29,7 +32,7 @@ public class PlayerRaycast : MonoBehaviour
             if (hit.transform.tag != "Untagged")
             {
                 ColorChange(1f);
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && FirstPersonController.canMove)
                 {
                     if(hit.transform.tag == "Part1")
                     {
@@ -45,7 +48,8 @@ public class PlayerRaycast : MonoBehaviour
                     }
                     if (hit.transform.tag == "Part4")
                     {
-                        Debug.Log("Part4 found.");
+                        mathGameOn = true;
+                        MathGameManager(true);
                     }
                 }
             }
@@ -59,5 +63,28 @@ public class PlayerRaycast : MonoBehaviour
             ColorChange(0.5f);
         }
         
+    }
+
+    public void MathGameManager(bool start)
+    {
+        FirstPersonController.canMove = !start;
+        Cursor.visible = start;
+        if (start)
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            mathUI.alpha = 1f;
+            StartCoroutine(MathGame());
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            mathUI.alpha = 0f;
+        }
+    }
+
+    public IEnumerator MathGame()
+    {
+        yield return new WaitUntil(() => mathGameOn == false);
+        MathGameManager(false);
     }
 }
