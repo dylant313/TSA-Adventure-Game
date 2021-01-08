@@ -71,7 +71,7 @@ public class PlayerRaycast : MonoBehaviour
         Cursor.visible = start;
         if (start)
         {
-            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.lockState = CursorLockMode.None;
             mathUI.alpha = 1f;
             StartCoroutine(MathGame());
         }
