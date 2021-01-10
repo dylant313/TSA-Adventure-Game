@@ -10,7 +10,7 @@ public class MathGame : MonoBehaviour
     public Text progress;
     public InputField answer;
     private RectTransform rectTransform;
-    public int result;
+    private int result;
     private int mover;
     private int numCorrect = 0;
     private int num1, num2, num3;

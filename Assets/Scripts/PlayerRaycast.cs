@@ -8,13 +8,13 @@ public class PlayerRaycast : MonoBehaviour
     private Camera cam;
     public float distance;
     public Image cursor;
-    public CanvasGroup mathUI;
     public static bool mathGameOn = false;
+    public static bool chemGameOn = false;
+    public static bool elecGameOn = false;
 
     void Start()
     {
         cam = Camera.main;
-        mathUI.alpha = 0f;
     }
 
     void ColorChange(float color)
@@ -40,16 +40,18 @@ public class PlayerRaycast : MonoBehaviour
                     }
                     if (hit.transform.tag == "Part2")
                     {
-                        Debug.Log("Part2 found.");
+                        elecGameOn = true;
+                        GameManager(true);
                     }
                     if (hit.transform.tag == "Part3")
                     {
-                        Debug.Log("Part3 found.");
+                        chemGameOn = true;
+                        GameManager(true);
                     }
                     if (hit.transform.tag == "Part4")
                     {
                         mathGameOn = true;
-                        MathGameManager(true);
+                        GameManager(true);
                     }
                 }
             }
@@ -65,26 +67,47 @@ public class PlayerRaycast : MonoBehaviour
         
     }
 
-    public void MathGameManager(bool start)
+    public void GameManager(bool start)
     {
         FirstPersonController.canMove = !start;
         Cursor.visible = start;
-        if (start)
+        if(start)
         {
             Cursor.lockState = CursorLockMode.None;
-            mathUI.alpha = 1f;
-            StartCoroutine(MathGame());
+            if(mathGameOn)
+            {
+                StartCoroutine(MathDisable());
+            }
+            if (chemGameOn)
+            {
+                StartCoroutine(ChemDisable());
+            }
+            if (elecGameOn)
+            {
+                StartCoroutine(ElecDisable());
+            }
         }
         else
         {
             Cursor.lockState = CursorLockMode.Locked;
-            mathUI.alpha = 0f;
         }
     }
 
-    public IEnumerator MathGame()
+    public IEnumerator MathDisable()
     {
         yield return new WaitUntil(() => mathGameOn == false);
-        MathGameManager(false);
+        GameManager(false);
+    }
+
+    public IEnumerator ChemDisable()
+    {
+        yield return new WaitUntil(() => chemGameOn == false);
+        GameManager(false);
+    }
+
+    public IEnumerator ElecDisable()
+    {
+        yield return new WaitUntil(() => elecGameOn == false);
+        GameManager(false);
     }
 }
