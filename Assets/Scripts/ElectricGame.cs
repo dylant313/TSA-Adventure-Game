@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ElectricGame : MonoBehaviour
 {
+    public GameObject piecePrefab;
+    public Image puzzleBoard;
     private RectTransform rectTransform;
     private int mover;
 
@@ -13,6 +15,7 @@ public class ElectricGame : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         rectTransform.anchoredPosition = new Vector3(0, -435, 0);
         StartCoroutine(ElecGameWait(true));
+        PuzzlePiece.prefabCount = 1;
     }
 
     public IEnumerator ElecGameWait(bool start)
@@ -21,6 +24,10 @@ public class ElectricGame : MonoBehaviour
         mover = 0;
         if(start)
         {
+            for(int i = 0; i < 9; i++)
+            {
+                Instantiate(piecePrefab, Vector3.zero, Quaternion.identity, puzzleBoard.transform);
+            }
             for (int i = 29; i > 0; i--)
             {
                 mover += i;
