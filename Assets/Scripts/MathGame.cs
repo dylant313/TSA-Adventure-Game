@@ -62,6 +62,8 @@ public class MathGame : MonoBehaviour
             if (numCorrect == 5)
             {
                 question.text = "AUTOPILOT ENABLED!";
+                PlayerRaycast.partsDone++;
+                GameObject.Find("Part4 - UpperBase").SetActive(false);
                 StartCoroutine(MathGameWait(false));
             }
             else
