@@ -17,7 +17,7 @@ public class SandGame : MonoBehaviour
 
     public IEnumerator SandGameWait(bool start)
     {
-        yield return new WaitUntil(() => PlayerRaycast.mathGameOn == true);
+        yield return new WaitUntil(() => PlayerRaycast.sandGameOn == true);
         mover = 0;
         if (start)
         {
