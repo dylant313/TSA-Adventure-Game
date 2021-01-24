@@ -40,8 +40,7 @@ public class ChemGame : MonoBehaviour
             if (tube1.value == 6 && tube2.value == 24 && tube3.value == 2 && tube4.value == 4)
             {
                 noteText.text = "Note:\nComplete!";
-                PlayerRaycast.partsDone++;
-                GameObject.Find("Part3 - MiddleBase").SetActive(false);
+                GameObject.Find("Part3 - Fuel").SetActive(false);
                 yield return new WaitForSeconds(1f);
                 for (int i = 1; i <= 29; i++)
                 {
@@ -50,6 +49,7 @@ public class ChemGame : MonoBehaviour
                     yield return new WaitForSeconds(0.01f);
                 }
                 PlayerRaycast.chemGameOn = false;
+                PlayerRaycast.partsDone++;
             }
             else
             {
