@@ -11,6 +11,8 @@ public class PlayerRaycast : MonoBehaviour
     public static bool mathGameOn = false;
     public static bool chemGameOn = false;
     public static bool elecGameOn = false;
+    public static bool sandGameOn = false;
+    public static int partsDone = 0;
 
     void Start()
     {
@@ -36,7 +38,8 @@ public class PlayerRaycast : MonoBehaviour
                 {
                     if(hit.transform.tag == "Part1")
                     {
-                        Debug.Log("Part1 found.");
+                        sandGameOn = true;
+                        GameManager(true);
                     }
                     if (hit.transform.tag == "Part2")
                     {
@@ -86,6 +89,10 @@ public class PlayerRaycast : MonoBehaviour
             {
                 StartCoroutine(ElecDisable());
             }
+            if (sandGameOn)
+            {
+                StartCoroutine(SandDisable());
+            }
         }
         else
         {
@@ -108,6 +115,12 @@ public class PlayerRaycast : MonoBehaviour
     public IEnumerator ElecDisable()
     {
         yield return new WaitUntil(() => elecGameOn == false);
+        GameManager(false);
+    }
+
+    public IEnumerator SandDisable()
+    {
+        yield return new WaitUntil(() => sandGameOn == false);
         GameManager(false);
     }
 }

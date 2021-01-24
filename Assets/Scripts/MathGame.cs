@@ -48,6 +48,7 @@ public class MathGame : MonoBehaviour
                 yield return new WaitForSeconds(0.01f);
             }
             PlayerRaycast.mathGameOn = false;
+            PlayerRaycast.partsDone++;
         }
         
     }
@@ -62,6 +63,7 @@ public class MathGame : MonoBehaviour
             if (numCorrect == 5)
             {
                 question.text = "AUTOPILOT ENABLED!";
+                GameObject.Find("Part4 - Autopilot").SetActive(false);
                 StartCoroutine(MathGameWait(false));
             }
             else
