@@ -86,7 +86,7 @@ public class MathGame : MonoBehaviour
         num3 = 2;
         while ((num3 - num2) % num1 != 0)
         {
-            num3 = Random.Range(-90, 90);
+            num3 = Random.Range(-70, 70);
             num2 = Random.Range(-30, 30);
             num1 = Random.Range(2, 12);
         }

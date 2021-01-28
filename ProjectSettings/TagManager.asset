@@ -8,7 +8,8 @@ TagManager:
   - Part2
   - Part3
   - Part4
-  - MathGame
+  - FinalGame
+  - FinalPositions
   layers:
   - Default
   - TransparentFX

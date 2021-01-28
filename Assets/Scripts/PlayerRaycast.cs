@@ -67,7 +67,11 @@ public class PlayerRaycast : MonoBehaviour
         {
             ColorChange(0.5f);
         }
-        
+
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            partsDone = 4;
+        }
     }
 
     public void GameManager(bool start)

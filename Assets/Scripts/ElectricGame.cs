@@ -7,6 +7,8 @@ public class ElectricGame : MonoBehaviour
 {
     public GameObject piecePrefab;
     public Image puzzleBoard;
+    public Text instructions;
+    public static List<Vector2> correctPositions = new List<Vector2>();
     private RectTransform rectTransform;
     private int mover;
 
@@ -16,6 +18,15 @@ public class ElectricGame : MonoBehaviour
         rectTransform.anchoredPosition = new Vector3(0, -435, 0);
         StartCoroutine(ElecGameWait(true));
         PuzzlePiece.prefabCount = 1;
+        correctPositions.Add(new Vector2(90, 90));
+        correctPositions.Add(new Vector2(0, -90));
+        correctPositions.Add(new Vector2(-90, -90));
+        correctPositions.Add(new Vector2(90, 0));
+        correctPositions.Add(new Vector2(0, 0));
+        correctPositions.Add(new Vector2(-90, 0));
+        correctPositions.Add(new Vector2(-90, 90));
+        correctPositions.Add(new Vector2(90, -90));
+        correctPositions.Add(new Vector2(0, 90));
     }
 
     public IEnumerator ElecGameWait(bool start)
@@ -34,9 +45,8 @@ public class ElectricGame : MonoBehaviour
                 rectTransform.anchoredPosition = new Vector3(0, -435 + mover, 0);
                 yield return new WaitForSeconds(0.01f);
             }
-        }
-        else
-        {
+            yield return new WaitUntil(() => PuzzlePiece.inPlace == 9);
+            instructions.text = "Complete!";
             yield return new WaitForSeconds(1.5f);
             for (int i = 1; i <= 29; i++)
             {

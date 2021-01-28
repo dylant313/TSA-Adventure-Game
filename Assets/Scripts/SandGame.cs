@@ -11,6 +11,7 @@ public class SandGame : MonoBehaviour
     public Image fin12;
     public Image fin21;
     public Image fin22;
+    public Text sandText;
     private RectTransform rectTransform;
     private int mover;
 
@@ -44,6 +45,7 @@ public class SandGame : MonoBehaviour
         {
             yield return new WaitUntil(() => fin11.GetComponent<CanvasGroup>().alpha == 0 && fin21.GetComponent<CanvasGroup>().alpha == 0);
             GameObject.Find("Part1 - Sand").SetActive(false);
+            sandText.text = "PARTS FOUND";
             yield return new WaitForSeconds(1.5f);
             for (int i = 1; i <= 29; i++)
             {
@@ -61,7 +63,7 @@ public class SandGame : MonoBehaviour
     {
         yield return new WaitUntil(() => SandPiece.clicked1 > -1 && SandPiece.clicked2 > -1);
         yield return new WaitForSeconds(0.5f);
-        if (SandPiece.clicked1 == 0 && SandPiece.clicked2 == 22)
+        if ((SandPiece.clicked1 == 0 && SandPiece.clicked2 == 22) || (SandPiece.clicked2 == 0 && SandPiece.clicked1 == 22))
         {
             for(int i = 0; i < 10; i++)
             {
@@ -72,7 +74,7 @@ public class SandGame : MonoBehaviour
                 yield return new WaitForSeconds(0.01f);
             }
         }
-        else if(SandPiece.clicked1 == 12 && SandPiece.clicked2 == 26)
+        else if((SandPiece.clicked1 == 12 && SandPiece.clicked2 == 26) || (SandPiece.clicked2 == 12 && SandPiece.clicked1 == 26))
         {
             for (int i = 0; i < 10; i++)
             {
