@@ -41,6 +41,7 @@ public class ChemGame : MonoBehaviour
             {
                 noteText.text = "Note:\nComplete!";
                 GameObject.Find("Part3 - Fuel").SetActive(false);
+                GetComponent<AudioSource>().Play();
                 yield return new WaitForSeconds(1f);
                 for (int i = 1; i <= 29; i++)
                 {

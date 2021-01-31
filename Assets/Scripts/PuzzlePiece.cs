@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class PuzzlePiece : MonoBehaviour, IDragHandler, IPointerUpHandler
+public class PuzzlePiece : MonoBehaviour, /*IDragHandler,*/ IPointerUpHandler, IPointerDownHandler
 {
     public static int prefabCount;
     public static int inPlace = 0;
@@ -26,18 +26,22 @@ public class PuzzlePiece : MonoBehaviour, IDragHandler, IPointerUpHandler
 
     void Update()
     {
-        if(Input.GetMouseButtonDown(1) && beingDragged)
+        /*if(Input.GetMouseButtonDown(1) && beingDragged)
         {
             transform.Rotate(new Vector3(0,0,-90));
             if (transform.rotation.eulerAngles.z % 360 == 0)
             {
                 transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);
             }
-        }
+        }*/
         if(transform.hasChanged && !beingDragged)
         {
             transform.hasChanged = false;
             lastPosition = rectTransform.anchoredPosition;
+        }
+        if(beingDragged)
+        {
+            rectTransform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         }
     }
 
@@ -57,11 +61,11 @@ public class PuzzlePiece : MonoBehaviour, IDragHandler, IPointerUpHandler
         return new Vector2(x, y);
     }
 
-    public void OnDrag(PointerEventData eventData)
+    /*public void OnDrag(PointerEventData eventData)
     {
         beingDragged = true;
         rectTransform.anchoredPosition += eventData.delta;
-    }
+    }*/
 
     public void OnPointerUp(PointerEventData eventData)
     {
@@ -79,6 +83,11 @@ public class PuzzlePiece : MonoBehaviour, IDragHandler, IPointerUpHandler
             }
             beingDragged = false;
         }
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        beingDragged = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)   

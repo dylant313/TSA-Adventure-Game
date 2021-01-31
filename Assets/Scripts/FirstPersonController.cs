@@ -17,6 +17,7 @@ public class FirstPersonController : MonoBehaviour
     private float hitAngle;
     private Vector3 hitNormal;
     private bool isGroundedNew;
+    private bool moving = false;
 
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
@@ -27,7 +28,7 @@ public class FirstPersonController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-
+        StartCoroutine(WalkingSounds());
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -45,7 +46,7 @@ public class FirstPersonController : MonoBehaviour
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
-        if (Input.GetButton("Jump") && canMove && isGroundedNew && characterController.isGrounded)
+        if(Input.GetButton("Jump") && canMove && isGroundedNew && characterController.isGrounded)
         {
             moveDirection.y = jumpSpeed;
         }
@@ -77,10 +78,27 @@ public class FirstPersonController : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeed, 0);
         }
+        if (characterController.velocity.magnitude > new Vector3(2,2,2).magnitude && characterController.isGrounded && isGroundedNew)
+        {
+            moving = true;
+        }
+        else
+        {
+            moving = false;
+        }
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         hitNormal = hit.normal;
+    }
+
+    IEnumerator WalkingSounds()
+    {
+        yield return new WaitUntil(() => !moving);
+        GetComponent<AudioSource>().Pause();
+        yield return new WaitUntil(() => moving);
+        GetComponent<AudioSource>().UnPause();
+        StartCoroutine(WalkingSounds());
     }
 }

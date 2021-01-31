@@ -8,11 +8,13 @@ public class PlayerRaycast : MonoBehaviour
     private Camera cam;
     public float distance;
     public Image cursor;
+    public Text instructionText;
     public static bool mathGameOn = false;
     public static bool chemGameOn = false;
     public static bool elecGameOn = false;
     public static bool sandGameOn = false;
     public static int partsDone = 0;
+    private bool firstTime = true;
 
     void Start()
     {
@@ -34,9 +36,18 @@ public class PlayerRaycast : MonoBehaviour
             if (hit.transform.tag != "Untagged")
             {
                 ColorChange(1f);
+                if(firstTime)
+                {
+                    instructionText.text = "Left click when highlighted to interact.";
+                }
                 if (Input.GetMouseButtonDown(0) && FirstPersonController.canMove)
                 {
-                    if(hit.transform.tag == "Part1")
+                    if(firstTime)
+                    {
+                        instructionText.GetComponent<CanvasGroup>().alpha = 0;
+                        firstTime = false;
+                    }
+                    if (hit.transform.tag == "Part1")
                     {
                         sandGameOn = true;
                         GameManager(true);
@@ -60,12 +71,12 @@ public class PlayerRaycast : MonoBehaviour
             }
             else
             {
-                ColorChange(0.5f);
+                ColorChange(0.3f);
             }
         }
         else
         {
-            ColorChange(0.5f);
+            ColorChange(0.3f);
         }
 
         if(Input.GetKeyDown(KeyCode.P))

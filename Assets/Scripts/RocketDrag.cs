@@ -27,6 +27,7 @@ public class RocketDrag : MonoBehaviour
             {
                 transform.position = FinalGame.positionArray[partID].transform.position;
                 isLocked = true;
+                GetComponent<AudioSource>().Play();
                 lockedCount++;
             }
         }

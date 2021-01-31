@@ -9,6 +9,8 @@ public class MathGame : MonoBehaviour
     public Text question;
     public Text progress;
     public InputField answer;
+    public AudioSource correctSound;
+    public AudioSource incorrectSound;
     private RectTransform rectTransform;
     private int result;
     private int mover;
@@ -60,6 +62,7 @@ public class MathGame : MonoBehaviour
         {
             numCorrect++;
             progress.text += "✓";
+            correctSound.Play();
             if (numCorrect == 5)
             {
                 question.text = "AUTOPILOT ENABLED!";
@@ -75,6 +78,7 @@ public class MathGame : MonoBehaviour
         {
             numCorrect = 0;
             progress.text = "";
+            incorrectSound.Play();
         }
         answer.text = "";
     }
@@ -90,7 +94,7 @@ public class MathGame : MonoBehaviour
             num2 = Random.Range(-30, 30);
             num1 = Random.Range(2, 12);
         }
-        if(num2 > 0)
+        if(num2 >= 0)
         {
             sign = " +";
         }

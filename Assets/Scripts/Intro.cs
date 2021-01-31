@@ -9,7 +9,8 @@ public class Intro : MonoBehaviour
     public Text textField;
     public Image storyScene;
     public CanvasGroup fadeBlack;
-    private float textSpeed = 0.03f;
+    public AudioSource end;
+    private float textSpeed = 0.04f;
     private float reminderTimeSet;
     private float reminderTimer = 0;
     private int textID;
@@ -62,16 +63,27 @@ public class Intro : MonoBehaviour
 
     IEnumerator AnimateText()
     {
+        for (float j = 1; j >= 0; j -= 0.049f)
+        {
+            fadeBlack.alpha = j;
+            yield return new WaitForSeconds(0.03f);
+        }
         int i = 0;
-        textString = "";
         typing = true;
         while (i < textList[textID].Length)
         {
             textString += textList[textID][i++];
+            GetComponent<AudioSource>().Play();
             yield return new WaitForSeconds(textSpeed);
         }
         typing = false;
         yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space));
+        textString = "";
+        for (float j = 0; j <= 1; j += 0.049f)
+        {
+            fadeBlack.alpha = j;
+            yield return new WaitForSeconds(0.03f);
+        }
         textID++;
         if (textID != 5)
         {
@@ -81,11 +93,6 @@ public class Intro : MonoBehaviour
 
     IEnumerator ChangeImage1()
     {
-        for (float i = 1; i >= 0; i -= 0.049f)
-        {
-            fadeBlack.alpha = i;
-            yield return new WaitForSeconds(0.03f);
-        }
         StartCoroutine(AnimateText());
         yield return new WaitUntil(() => textID == 2);
         storyScene.GetComponent<Image>().sprite = Resources.Load<Sprite>("Intro2");
@@ -93,22 +100,15 @@ public class Intro : MonoBehaviour
         yield return new WaitUntil(() => textID == 5);
         textString = "";
         typing = true;
-        for (float i = 0; i <= 1; i += 0.049f)
-        {
-            fadeBlack.alpha = i;
-            yield return new WaitForSeconds(0.03f);
-        }
         yield return new WaitForSeconds(1.0f);
         SceneManager.LoadScene("World");
     }
 
     IEnumerator ChangeImage2()
     {
-        for (float i = 1; i >= 0; i -= 0.049f)
-        {
-            fadeBlack.alpha = i;
-            yield return new WaitForSeconds(0.03f);
-        }
+        end.Play();
         StartCoroutine(AnimateText());
+        yield return new WaitUntil(() => textID == 6);
+        Application.Quit();
     }
 }

@@ -73,6 +73,7 @@ public class FinalGame : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
 
+        endText.text = "Drag the parts into place!";
         for (float i = 0; i <= 1; i += 0.049f)
         {
             endText.GetComponent<CanvasGroup>().alpha = i;

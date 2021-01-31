@@ -12,6 +12,8 @@ public class SandGame : MonoBehaviour
     public Image fin21;
     public Image fin22;
     public Text sandText;
+    public AudioSource correctSound;
+    public AudioSource incorrectsound;
     private RectTransform rectTransform;
     private int mover;
 
@@ -65,6 +67,7 @@ public class SandGame : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if ((SandPiece.clicked1 == 0 && SandPiece.clicked2 == 22) || (SandPiece.clicked2 == 0 && SandPiece.clicked1 == 22))
         {
+            correctSound.Play();
             for(int i = 0; i < 10; i++)
             {
                 fin11.rectTransform.sizeDelta += new Vector2(0.1f, 0.1f);
@@ -76,6 +79,7 @@ public class SandGame : MonoBehaviour
         }
         else if((SandPiece.clicked1 == 12 && SandPiece.clicked2 == 26) || (SandPiece.clicked2 == 12 && SandPiece.clicked1 == 26))
         {
+            correctSound.Play();
             for (int i = 0; i < 10; i++)
             {
                 fin21.rectTransform.sizeDelta += new Vector2(0.1f, 0.1f);
@@ -85,6 +89,10 @@ public class SandGame : MonoBehaviour
                 yield return new WaitForSeconds(0.01f);
             }
             StartCoroutine(SandGameWait(false));
+        }
+        else
+        {
+            incorrectsound.Play();
         }
         yield return new WaitForSeconds(0.5f);
         SandPiece.clicked1 = -1;

@@ -46,7 +46,11 @@ public class ElectricGame : MonoBehaviour
                 yield return new WaitForSeconds(0.01f);
             }
             yield return new WaitUntil(() => PuzzlePiece.inPlace == 9);
+            yield return new WaitForSeconds(0.5f);
             instructions.text = "Complete!";
+            GameObject.Find("Part2 - Wiring").SetActive(false);
+            GetComponent<AudioSource>().Play();
+            mover = 0;
             yield return new WaitForSeconds(1.5f);
             for (int i = 1; i <= 29; i++)
             {
@@ -55,6 +59,7 @@ public class ElectricGame : MonoBehaviour
                 yield return new WaitForSeconds(0.01f);
             }
             PlayerRaycast.elecGameOn = false;
+            PlayerRaycast.partsDone++;
         }
     }
 }
